@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Ksenia Krasikova" />
+  <meta name="author" content="Payal Priyadarshini" />
+  <title>Comparative Analysis of Machine Learning Models for Binary Classification in Metabolomics and Eludication of Key Metabolites </title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    div.abstract {
+      margin: 2em 2em 2em 2em;
+      text-align: left;
+      font-size: 85%;
+    }
+    div.abstract-title {
+      font-weight: bold;
+      text-align: center;
+      padding: 0;
+      margin-bottom: 0.5em;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Comparative Analysis of Machine Learning Models for
+Binary Classification in Metabolomics and Eludication of Key Metabolites
+</h1>
+<p class="author">Ksenia Krasikova</p>
+<p class="author">Payal Priyadarshini</p>
+<div class="abstract">
+<div class="abstract-title">Abstract</div>
+<p><br />
+<strong>Goal of the project:</strong> Comparing performance of four
+machine learning models in binary classification on a metabolomics data
+set based on the study by <span class="citation"
+data-cites="Mendez2019"></span> and eludicating metabolites most
+important to the prediction.<br />
+<strong>Main results:</strong> Models performed similarly to the
+original study, metabolites found predictivly important are shown to be
+biologically discriptive.<br />
+<strong>Personal key learnings:</strong> Handling model hyperparameter
+optimization and feature extraction.<br />
+<strong>Estimated working hours:</strong> 10<br />
+<strong>Project evaluation:</strong> 3<br />
+<strong>Number of Words:</strong> 1122</p>
+</div>
+</header>
+<h1 id="introduction">Introduction</h1>
+<p>Advancements in bioinformatics and data science have significantly
+contributed to biomedicine, particularly by enabling the analysis of
+metabolites and their roles in disease mechanisms and cellular functions
+<span class="citation" data-cites="bioinf"></span>. However, as these
+fields advance, it becomes increasingly important to evaluate the
+performance and reliability of established methods and machine learning
+models used in biomedical analysis <span class="citation"
+data-cites="reviewml"></span>. In the comparative analysis of <span
+class="citation" data-cites="Mendez2019"></span> predictive performance
+of eight different machine learning models was tested and compared on
+different metabolomics data, to identify the most effective method in
+metabolomics research.<br />
+Here, this comparative study is replicated on four of the eight used
+machine learning models and additionally elucidates the most predictive
+metabolites involved in classification.</p>
+<h1 id="goal">Goal</h1>
+<p>The main goal of this project is to recreate the study of binary
+classification machine learning models on metabolomics data, as
+presented in <span class="citation" data-cites="Mendez2019"></span>. By
+consequently comparing the results, the reproducibility of such study
+can be shown or refuted. Additionally, the most important features of
+each model are determined in order to elucidate metabolites’ potential
+biological significance for the original study of the dataset <span
+class="citation" data-cites="data"></span>.</p>
+<h1 id="data-and-preprocessing">Data and Preprocessing</h1>
+<p>For this project, the dataset MTBLS90 was chosen and obtained via the
+GitHub repository by <span class="citation" data-cites="github"></span>.
+By downloading the data from the comparative study, it was ensured that
+the data was already cleaned and was using the Tidy Data framework. It
+contains data from the <span class="citation" data-cites="data"></span>
+study, containing plasma samples of 968 participants at age 70 (rows)
+with 189 metabolite entries (columns) each. The metabolites were
+elucidated using liquid chromatography-mass spectrometry. The binary
+classes are female (class 0, 483 samples) and male (class 1, 485
+samples). Data was loaded in two tables, where the main data table
+contained metabolite data in columns to be trained and tested on, and
+the peak data contained detailed meta information on the columns
+(metabolites) of the data table.<br />
+After import, the main data table is split into features (x) and labels
+(y) and train and test data following the 2:1 split scheme of the <span
+class="citation" data-cites="Mendez2019"></span> paper. Similar to the
+preprocessing done in the original study of <span class="citation"
+data-cites="Mendez2019"></span>, all feature data was rescaled using
+logarithmic transformation and a StandardScaler from the sci-kit learn
+package <span class="citation" data-cites="scikit"></span>. An
+imputation and binary filtering were not needed, as the data already
+contains two classes and no missing values.</p>
+<h1 id="methods">Methods</h1>
+<p>Packages used in the study were: sci-kit learn <span class="citation"
+data-cites="scikit"></span>, numpy <span class="citation"
+data-cites="numpy"></span>, <span class="citation"
+data-cites="pandas"></span> and matplotlib <span class="citation"
+data-cites="matplot"></span> for subsequent visualization for this
+report. Additionally, the use of the cimcb package was refrained from,
+and the models were reproduced without it.<br />
+The four machine learning models chosen were Partial Least Squares
+Regression, Random Forests and two Support Vector Machines, both with
+linear and radial bias function kernels. Additionally, for all models, a
+hyperparameter optimization was carried out where the parameter
+intervals and values were set similar to the values of the original
+optimization <span class="citation" data-cites="github"></span>.</p>
+<h2 id="plsr">PLSR</h2>
+<p>Partial Least Squares Regression is a method that reduces the data to
+a smaller number of components in order to highlight variables most
+important for explaining the relationship between input and output data.
+According to the studies, PLS evaluates the importance of a variable
+using Variable Importance in Projection scores <span class="citation"
+data-cites="PLS"></span>. It is set to be optimized in the number of
+components using grid search, as it has a lesser number of
+candidates.<br />
+</p>
+<h2 id="random-forests">Random Forests</h2>
+<p>Random Forests is a method that constructs multiple decision trees
+from the data and combines their results to predict the output.
+According to studies, feature importance is usually measured using the
+Gini coefficient (mean decrease in impurity). This metric calculates the
+total decrease in node impurity <span class="citation"
+data-cites="PLS"></span>. The hyperparameter optimization includes the
+maximal tree depth and minimum number of samples to be present in a leaf
+node. Here, random search is used to speed up the optimization, as this
+parameter grid is more extensive.<br />
+</p>
+<h2 id="svm">SVM</h2>
+<p>Support Vector Machine is an algorithm that finds a hyperplane to
+distinctly separate the data, where different kernels change how the
+data is transformed to ensure separation. According to <span
+class="citation" data-cites="SVM"></span>, SVMs measure their feature
+importance from the absolute values of the model’s coefficients, larger
+absolute coefficient values indicate greater importance. Whereas RBF
+uses a less straightforward interpretation of feature importance,
+concisely, it removes features with the least ranking criterion. For
+both linear and radial bias function kernels, only the regularization
+parameter c was optimized using grid search.</p>
+<h2 id="evaluation">Evaluation</h2>
+<p>After model hyperparameter optimization and training, AUC scores for
+train and test data were computed using pre-defined sci-kit learn
+functions.<br />
+Following that, for each model, features important to the prediction
+were extracted. For PLSR, feature importance was extracted by
+calculating the VIP score with a custom function. For Random Forests and
+linear SVM, these could be extracted directly using feature_inportances
+for RF and using coef_ attribute for the linear SVM. Lastly, for SVM
+with radial bias function kernel feature importances were determined
+with permutation_importance, which evaluates performance over shuffled
+feature data, where a bigger drop in performance suggests higher feature
+importance.<br />
+After extraction, values were matched with metabolite names from the
+peak data table using the metabolite codes in the column names in order
+to elucidate metabolites important to class distinction.</p>
+<h1 id="results-discussion">Results &amp; Discussion</h1>
+<p>After concluding hyperparameter optimization and model training,
+following results are achieved: overall, the four chosen models have
+almost identical AUC<sub>test</sub> scores (AUC<sub>test</sub>=0.83) and
+similar ROC-curves (). For each model, both AUC scores are close to the
+reported AUC values in Table 2 from <span class="citation"
+data-cites="Mendez2019"></span>, with AUC<sub>train</sub> being slightly
+more variable and higher than the original values. However, all
+replicated values, except for RF AUC<sub>train</sub>, fall into the
+confidence intervals of the original study.<br />
+The variations in the scores can presumably be traced back to different
+hyperoptimization methods and evaluations of the scores, as here no
+cimcb package and bootstrapping were used. Overall, the models produce
+results corresponding to the original study.</p>
+<figure id="fig:view" data-latex-placement="ht!">
+<img src="./Download.png" />
+<figcaption> Examined ROC curves for test data of four models considered
+for evaluation </figcaption>
+</figure>
+<div id="tab:auc">
+<table>
+<caption>AUC scores from replicated models and original models in <span
+class="citation" data-cites="Mendez2019"></span>.</caption>
+<thead>
+<tr>
+<th style="text-align: left;"><span>Model</span></th>
+<th style="text-align: left;"></th>
+<th style="text-align: left;">Replicated Values</th>
+<th style="text-align: left;">Original Values</th>
+<th style="text-align: right;"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span>PLSR</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">train</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.89</td>
+<td style="text-align: left;">0.88</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">test</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.83</td>
+<td style="text-align: left;">0.83</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>RF</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">train</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.99</td>
+<td style="text-align: left;">0.91</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">test</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.83</td>
+<td style="text-align: left;">0.82</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>SVN - linear</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">train</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.88</td>
+<td style="text-align: left;">0.86</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">test</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.83</td>
+<td style="text-align: left;">0.84</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span>SVN - rbf</span></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">train</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.90</td>
+<td style="text-align: left;">0.89</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr>
+<td style="text-align: left;">test</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">0.83</td>
+<td style="text-align: left;">0.82</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br />
+</p>
+<div class="tabular">
+<p><span>S l l l r</span> <span>Model</span>&amp;Importance &amp;
+Metabolite &amp; Code<br />
+<span>PLSR</span><br />
+&amp;2.361 &amp; Ceramide phosphoethanolamine(35:2)|Sphingomyelin(32:2)
+&amp; M141<br />
+&amp;2.339 &amp; Phosphatidylcholine(28:2) &amp; M142<br />
+&amp;2.328 &amp; Creatine &amp; M10<br />
+<span>RF</span><br />
+&amp;0.059 &amp; Ceramide phosphoethanolamine(35:2)|Sphingomyelin(32:2)
+&amp; M141<br />
+&amp;0.058 &amp; Phosphatidylcholine(28:2) &amp; M142<br />
+&amp;0.036 &amp; Creatine &amp; M10<br />
+<span>SVN - linear</span><br />
+&amp;0.106 &amp; Creatine &amp; M10<br />
+&amp;0.092 &amp; Ceramide phosphoethanolamine(35:2)|Sphingomyelin(32:2)
+&amp; M141<br />
+&amp;0.091 &amp; Phosphatidylcholine(28:2) &amp; M142<br />
+<span>SVN - RBF</span><br />
+&amp;0.023 &amp; Creatine &amp; M10<br />
+&amp; 0.012 &amp; Ceramide phosphoethanolamine(35:2)|Sphingomyelin(32:2)
+&amp; M141<br />
+&amp;0.011 &amp; Phosphatidylcholine(28:2) &amp; M142<br />
+</p>
+</div>
+<p>In terms of metabolites, the most important features extracted from
+the test data for all four models were the same, but in different order
+and expression values. The crucial metabolites given by the models were
+creatine (M10), Ceramide phosphoethanolamine/Sphingomyelin (M141), and
+Phosphatidylcholine (M142) ().<br />
+First, creatine has been shown to differ by gender, with women having
+lower creatine levels than men, which can be attributed to muscle mass
+differences <span class="citation" data-cites="genderm10"></span>.
+Ceramide phosphoethanolamine and Sphingomyelin have also been shown to
+be differential between men and women, especially sphingomyelin having
+higher levels in women, even with age<span class="citation"
+data-cites="gendersphingo"></span>. Lastly, phosphatidylcholine levels
+have also been found to be higher in women than in men, however, the
+difference in levels can be reversed or even decreased with age <span
+class="citation" data-cites="gendersphingo"></span>. Overall, the
+metabolites that were identified as the ones with the most prediction
+power on the binary gender classification were also found to relate with
+gender.</p>
+<h1 id="contributions">Contributions</h1>
+<ol>
+<li><p>PLSR and RF models, part of data pre-processing and feature
+extraction, were done by Ksenia Krasikova.</p></li>
+<li><p>Both SVM models, part of the data preparation and feature
+extraction, were performed by Payal Priyadarshini.</p></li>
+</ol>
+</body>
+</html>
