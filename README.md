@@ -24,18 +24,8 @@ images, and learning on graphs.
 
 ## Three projects worth reading together
 
-Projects **07 → 08 → 09** attack the same problem — predicting the electric
-dipole moment of molecules from the QM9 dataset — with three different
-inductive biases, which makes them directly comparable:
-
-- **07** is a plain graph convolutional network in Euclidean space. It is the
-  baseline.
-- **08** embeds the graph in **hyperbolic** space, on the argument that
-  hierarchical molecular structure fits negatively curved space better. It beats
-  the baseline across all losses.
-- **09** builds **rotation and translation equivariance** into the architecture
-  and feeds it 3D atom positions. It also beats the baseline, and lands
-  comparable to the hyperbolic model.
+Projects **07 → 08 → 09** attack the same problem ie. predicting the electric
+dipole moment of molecules from the QM9 dataset. 
 
 The useful conclusion is in that last comparison: encoding the physical symmetry
 of the problem buys roughly what the change of geometry bought, from a different
@@ -47,14 +37,11 @@ Both reconstruct 3D keypoints from 2D observations, with different assumptions.
 **Non-rigid structure from motion** (04) recovers shape and motion from a
 sequence of images of a deforming object. **Structure from template** (05)
 reconstructs from a single image given a known template of the object.
-Project 05 ships as a package with its data, tests and result figures, so it
-runs end to end.
+Project 05 tests and result figures, so it runs end to end.
 
 ## Attribution
 
-All nine are group projects with equal contribution. Projects 02–09 were done
-with **Ksenia Krasikova** and **Philipp Harlos**; project 01 with **Ksenia
-Krasikova**. Reports are written in the eLife article template.
+All nine are group projects with equal contribution **Ksenia** and **Philipp**: Reports are written in the eLife article template.
 
-Where a notebook is based on a practical skeleton provided by the seminar, the
+Where a notebook is based on a practical skeleton provided by the course, the
 scaffolding is the course's and the implementation is ours.
