@@ -24,7 +24,7 @@ images, and learning on graphs.
 
 ## Three projects worth reading together
 
-Projects **07 → 08 → 09** attack the same problem ie. predicting the electric
+Projects **07, 08, 09** attack the same problem ie. predicting the electric
 dipole moment of molecules from the QM9 dataset. 
 
 The useful conclusion is in that last comparison: encoding the physical symmetry
